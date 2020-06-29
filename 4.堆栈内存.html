@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  
+</body>
+<script>
+  //题一：所有的赋值都是先创建值，再创建变量，最后用指针关联
+  let a = {n:1};
+  let b = a;
+  a.x = a = {n:2};
+  console.log("a.x="+a.x);//a.x=undefined
+  console.log(b)//{n:1,x:{n:2}}
+  console.log(a)//{n:2}
+
+
+</script>
+</html>

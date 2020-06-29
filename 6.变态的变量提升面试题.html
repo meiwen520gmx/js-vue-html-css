@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  
+</body>
+<script>
+  debugger;
+  var a = 0;
+  if(true){
+    a = 1;
+    function a(){};
+    a = 21;
+    console.log("if中"+a)//if中21
+  }
+  console.log("if外"+a)//if外1
+  //如果是IE<=IE10  首先变量提升：function a(){}  a = 0  a = 1 a = 21  最后两个输出都是21
+
+</script>
+</html>
