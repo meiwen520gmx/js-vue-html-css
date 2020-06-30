@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body></body>
+  <script>
+    debugger;
+    function fun(n, o) {
+      console.log(o);
+      return {
+        fun: function (m) {
+          return fun(m, n);
+        },
+      };
+    }
+    var c = fun(1, 2).fun(3, 4);
+    c.fun(5);
+    c.fun(6);
+  </script>
+</html>

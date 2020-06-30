@@ -93,5 +93,109 @@ object ,function
 
 ![image-20200629112833892](C:\Users\admin\AppData\Roaming\Typora\typora-user-images\image-20200629112833892.png)
 
+## vue核心基础知识
+
+### 说说你对SPA单页面的理解，它的优缺点分别是什么？
+
+![image-20200630092232690](C:\Users\admin\AppData\Roaming\Typora\typora-user-images\image-20200630092232690.png)
+
+* iframe本质上是MPA,但是它能实现SPA效果
+
+### vue-router有哪几种导航守卫？
+
+#### （1）全局守卫：
+
+* router.beforeEach 全局前置守卫，进入路由之前
+* router.beforeResolve 全局解析守卫（2.5.0+）在beforeRouteEnter调用之后调用
+* router.afterEach 全局后置钩子，进入路由之后
+
+`
+
+router.beforeEach((to, from, next) => {
+
+  //next()  next(false)  next('/')
+
+]})
+
+`
+
+#### （2）路由独享守卫：
+
+* beforeEnter
+
+#### （3）路由组件内守卫：
+
+* beforeRouteEnter 进入路由前，在路由独享守卫后调用，不能获取组件实例this,组件实例还没被创建
+* beforeRouteUpdate(2.2) 路由复用同一个组件时，在当前路由改变，但是该组件被复用时调用
+* beforeRouteLeave 离开当前路由时，导航离开该组件的对应路由时调用
+
+`
+
+beforeRouteEnter(to, from, next) {
+
+​	next(vm => {
+
+​			//通过“vm”来访问组件实例
+
+​     })
+
+}
+
+`
+
+回答：路由导航守卫有很多种：全局守卫和路由独享守卫，还有组件内守卫，但是我在项目中做权限校验的时候使用的是beforeEach，其他的守卫只是知道，但是很少用。
+
+### 真实项目中的权限校验
+
+#### （1）登录态校验
+
+* 会话机制
+* token机制（接口权限）
+* beforeEach(登录态存储在vuex中)
+* 向服务器发送请求----
+  * 登录的时候，登录成功后会在vuex中存储已经登录isLogin
+  * 为了防止页面刷新过程中vuex存储信息消失，服务器是记录登录态的
+  * 第一种：会话方式 cookie session
+  * 第二种：token方式  后端用JWT生成token  客户端把token存储起来（本地存储）
+* 接口权限校验   token 
+
+#### （2）菜单和按钮的权限校验(显示隐藏)
+
+* 获取权限字段：登录成功从服务器获取用户的权限字段，存储在本地（本地存储[不安全，可以加密存储] /  [vuex]）
+* 使用自定义指令来控制渲染还是不渲染（不建议使用组件内 v-if）
+* 有的公司，客户端渲染的菜单，都是服务器返回的html  (服务器压力大，但是绝对安全)
+* 不管是否有权限都能看，只不过点击会提示或者不让跳路由，再或者跳转到指定路由（beforeEach,组件内自己判断）
+* 数据权限
+  * 服务器处理的（保证绝对的安全性）
+
+#### （3）导航守卫
+
+* 登录态校验
+* 根据权限控制是否允许进入路由
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
