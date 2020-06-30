@@ -173,19 +173,59 @@ beforeRouteEnter(to, from, next) {
 * 登录态校验
 * 根据权限控制是否允许进入路由
 
+### 谈谈你对keep-alive的了解？
 
+keep-alive是vue内置的一个组件，可以使被包含的组件保留状态，避免重新渲染，其有以下特征：
 
+* 一般结合路由和动态组件一起使用，用于缓存组件
+* 提供include和exclude属性，两者都支持字符串或者正则表达式，include表示只有名称匹配的组件会被缓存，exclude表示任何名称匹配的组件都不会被缓存，其中exclude的优先级比include高
+* 对应两个钩子函数activated和deactivated,当组件被激活时，触发钩子函数activated,当组件被移除时，触发钩子函数deactivated
 
+### v-show与v-if有什么区别
 
+* v-show是css切换，v-if是完整的销毁和重新创建
+* 使用频繁切换时用v-show,运行时较少改变时用v-if
+* v-if="false"  v-if是条件渲染，当false的时候不会渲染
 
+### v-model的原理
 
+`<input type="text" :value="searchtxt" @input="searchtxt = $event.target.value">{{searchtxt}}`
 
+### computed和watch的区别和运用的场景
 
+* computed擅长处理的情景：一个数据受多个数据影响
 
+  <img src="C:\Users\admin\AppData\Roaming\Typora\typora-user-images\image-20200630155643151.png" alt="image-20200630155643151" style="zoom:80%;" />
 
+* watch擅长处理的情景：一个数据影响多个数据
 
+* ![image-20200630155730286](C:\Users\admin\AppData\Roaming\Typora\typora-user-images\image-20200630155730286.png)
 
+* watch监听现有的数据，改变其他值，类似于某些数据的监听回调
+* computed创建一个数据，这个数据受到其他状态的影响，并且computed的值有缓存，只有他的依赖属性值发生改变，下一次获取computed的值时才会重新计算
+* 运用场景：
+* 当我们需要进行数值计算，并且依赖于其他数据时，应该使用computed，因为可以利用computed的缓存特性，避免每次获取值时，都要重新计算；
+* 当我们需要在数据变化时执行异步或开销较大的操作时，应该使用watch，使用watch选项允许我们执行异步操作（访问一个API），限制我们执行该操作的频率，并在我们得到最终结果前，设置中间状态，这些都是计算属性无法做到的；
 
+### vue的生命周期(问的是各个周期函数在项目中的应用)
+
+* beforeCreate 实例还没有创建完成
+* created 实例创建完成，整个东西初始化完成，页面还没加载完成（发送异步数据请求）
+* beforeMount
+* mounted 第一次页面渲染完了，有真实的DOM
+* beforeUpdate
+* updated中一定不能再更新状态，会形成一个死循环
+* beforeDestroy路由切换会把上一个组件销毁，把一些数据存储起来
+* destroyed
+
+### MVVM(vue的原理)
+
+Vue主要通过以下4个步骤来实现数据双向绑定的：
+
+* 实现一个监听器Observer：对数据对象进行遍历，包括子属性对象的属性，利用Object.defineProperty()对属性都加上setter和getter,这样给这个对象的某个值赋值，就会触发setter,那么就能监听到数据的变化
+* 实现一个解析器Compile：解析Vue模板指令，将模板中的变量都替换成数据，然后初始化渲染页面视图，并将每个指令对应的节点绑定更新函数，添加监听数据的订阅者，一旦数据有变动，收到通知，调用更新函数进行数据更新
+* 实现一个订阅者Watcher：Watcher订阅者是Observer和Compile之间通信的桥梁，主要的任务是订阅Observer中的属性值变化的消息，当收到属性值变化的消息时，触发解析器Compile中对应的更新函数
+* 实现一个订阅器Dep：订阅器采用发布-订阅设计模式，用来收集订阅者Watcher，对监听器Observer和订阅者Watcher进行统一管理
 
 
 
