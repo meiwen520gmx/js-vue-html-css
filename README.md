@@ -110,13 +110,11 @@ object ,function
 * router.afterEach 全局后置钩子，进入路由之后
 
 `
-
 router.beforeEach((to, from, next) => {
 
   //next()  next(false)  next('/')
 
 ]})
-
 `
 
 #### （2）路由独享守卫：
@@ -130,7 +128,6 @@ router.beforeEach((to, from, next) => {
 * beforeRouteLeave 离开当前路由时，导航离开该组件的对应路由时调用
 
 `
-
 beforeRouteEnter(to, from, next) {
 
 ​	next(vm => {
@@ -140,7 +137,6 @@ beforeRouteEnter(to, from, next) {
 ​     })
 
 }
-
 `
 
 回答：路由导航守卫有很多种：全局守卫和路由独享守卫，还有组件内守卫，但是我在项目中做权限校验的时候使用的是beforeEach，其他的守卫只是知道，但是很少用。
@@ -227,7 +223,11 @@ Vue主要通过以下4个步骤来实现数据双向绑定的：
 * 实现一个订阅者Watcher：Watcher订阅者是Observer和Compile之间通信的桥梁，主要的任务是订阅Observer中的属性值变化的消息，当收到属性值变化的消息时，触发解析器Compile中对应的更新函数
 * 实现一个订阅器Dep：订阅器采用发布-订阅设计模式，用来收集订阅者Watcher，对监听器Observer和订阅者Watcher进行统一管理
 
+### Vue优化
 
+* 无线下拉刷新：vue-virtual-scroller
+* 类别数据和向服务器请求回来的数据不会进行改变的，使用数据冻结：Object.freeze(数据)
+* 前端骨架平减少页面白屏
 
 
 
