@@ -29,6 +29,7 @@ export default {
     setTimeout(() => {
       this.text = "哈哈哈 嘻嘻嘻"
     },1000);
+    // console.log(this.$children)
   },
   components: {
     HelloWorld,
