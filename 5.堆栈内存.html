@@ -10,24 +10,24 @@
 </body>
 <script>
   //题一：
-  debugger;
-  var x = 1;
-  function func(x, y = function anonymousl() {x = 2}){
-    x = 3;
-    y();
-    console.log(x);
-  }
-  func(5);
-  console.log(x);
-  //题二：
+  // debugger;
   // var x = 1;
   // function func(x, y = function anonymousl() {x = 2}){
-  //   var x = 3;
+  //   x = 3;
   //   y();
   //   console.log(x);
   // }
   // func(5);
   // console.log(x);
+  //题二：
+  var x = 1;
+  function func(x, y = function anonymousl() {x = 2}){
+    var x = 3;
+    y();
+    console.log(x);
+  }
+  func(5);
+  console.log(x);
 
 </script>
 </html>
