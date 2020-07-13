@@ -77,11 +77,13 @@ object ,function
 
 ## 堆栈内存
 
-* js代码之所以能在浏览器运行是因为有一个ECStack执行环境栈
+* js代码之所以能在浏览器运行是因为有一个ECStack（执行环境栈）
+* EC(G)全局执行上下文，EC(函数名)私有上下文，VO(G)是全局变量对象，AO(函数名)是私有变量对象
 * 所有的赋值都是先创建值，再创建变量，最后用指针关联
 * 所有的引用类型都要开辟一个堆内存来存储
 * 带成员访问的要优先处理 比如：a.x = a = {n:2}   先创建值{n:2}存堆里面，   然后a.x=xxx，最后a=xxx
 * 一个变量只能跟一个值进行关联
+* js总有一个全局执行上下文，就是window，每执行一个函数都会创建一个函数执行上下文，形参赋值和在函数当前声明的才是函数私有的属性
 
 <img src="C:\Users\admin\AppData\Roaming\Typora\typora-user-images\image-20200629100358552.png" alt="image-20200629100358552" />
 
@@ -92,6 +94,18 @@ object ,function
 * 【新版本浏览器】{}中的function在全局下只声明不定义，{}出现function/let/const会创建一个块级上下文
 
 ![image-20200629112833892](C:\Users\admin\AppData\Roaming\Typora\typora-user-images\image-20200629112833892.png)
+
+* ES6中存在块级作用域（只要{}[除对象之外的大括号]出现let/const/function）
+* 有一种情况也会产生块级作用域：
+      *  1.函数有形参赋值了默认值
+      *  2.函数体中有单独声明过某个变量
+* 这样在函数运行的时候，会产生两个上下文
+* 第一个：函数执行形成的私有上下文EC(FUNC)=>作用域链/形参赋值/....
+* 第二个：函数体大括号包起来的是一个块级上下文EC(BLOCK)
+
+
+
+
 
 ## vue核心基础知识
 
@@ -110,13 +124,11 @@ object ,function
 * router.afterEach 全局后置钩子，进入路由之后
 
 `
-
 router.beforeEach((to, from, next) => {
 
   //next()  next(false)  next('/')
 
 ]})
-
 `
 
 #### （2）路由独享守卫：
@@ -130,7 +142,6 @@ router.beforeEach((to, from, next) => {
 * beforeRouteLeave 离开当前路由时，导航离开该组件的对应路由时调用
 
 `
-
 beforeRouteEnter(to, from, next) {
 
 ​	next(vm => {
@@ -140,7 +151,6 @@ beforeRouteEnter(to, from, next) {
 ​     })
 
 }
-
 `
 
 回答：路由导航守卫有很多种：全局守卫和路由独享守卫，还有组件内守卫，但是我在项目中做权限校验的时候使用的是beforeEach，其他的守卫只是知道，但是很少用。
@@ -250,6 +260,9 @@ Vue主要通过以下4个步骤来实现数据双向绑定的：
           *   （2）这个prop以一种原始的值传入且需要进行转换，在这种情况下，最好使用这个prop的值来定义一个计算属性
 
 
+* 无线下拉刷新：vue-virtual-scroller
+* 类别数据和向服务器请求回来的数据不会进行改变的，使用数据冻结：Object.freeze(数据)
+* 前端骨架平减少页面白屏
 
 
 
