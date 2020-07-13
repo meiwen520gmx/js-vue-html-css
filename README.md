@@ -227,6 +227,28 @@ Vue主要通过以下4个步骤来实现数据双向绑定的：
 * 实现一个订阅者Watcher：Watcher订阅者是Observer和Compile之间通信的桥梁，主要的任务是订阅Observer中的属性值变化的消息，当收到属性值变化的消息时，触发解析器Compile中对应的更新函数
 * 实现一个订阅器Dep：订阅器采用发布-订阅设计模式，用来收集订阅者Watcher，对监听器Observer和订阅者Watcher进行统一管理
 
+### N种组件间相互通信的方法
+
+* props/$emit适用 父子组件通信
+* $refs与$parent/$children适用 父子组件通信
+* EventBus($emit/$on)适用于 父子、隔代、兄弟组件通信
+* provide/inject 适用于隔代组件通信
+* vuex公共状态管理 适用于SPA单页面应用中的各类情况
+
+### Vue的单向数据流
+
+* 所有的prop都使得其父子prop之间形成了一个单向下行绑定：父级prop的更新会向下流动到子组件中，但是反过来则不行
+* vue的父组件和子组件生命周期钩子函数执行顺序可以归类为以下四个部分:
+
+                    *  加载渲染过程：`父beforeCreate->父created->父beforeMount->子beforeCreate->子created->子beforeMount->子mounted->父mounted`
+                    *  子组件更新过程：`父bedoreUpdate->子beforeUpdate->子updated->父updated`
+                    *  父组件更新过程：`父beforeUpdate->子updated`
+                    *  销毁过程：`父beforeDestroy->子beforeDestroy->子destroyed->父destroyed`
+                    *  每次父级组件发生更新时，子组件中所有的prop都将会刷新为最新的值，这意味着你不应该在一个子组件内部改变prop，如果你这样做了，vue会在浏览器的控制台中发出警告！子组件想修改时，只能通过$emit派发一个自定义事件，父组件接收到后，由父组件修改。
+   *  有两种常见的视图改变一个prop的情形：
+          *   （1）这个prop用来传递一个初始值，这个子组件接下来希望将其作为一个本地的prop数据来使用，在这种情况下，最好定义一个本地的data属性并将这个prop用作其初始值
+          *   （2）这个prop以一种原始的值传入且需要进行转换，在这种情况下，最好使用这个prop的值来定义一个计算属性
+
 
 
 
