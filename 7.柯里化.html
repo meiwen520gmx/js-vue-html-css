@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body></body>
+  <script>
+    //闭包事先存储值，后期用的机制叫柯理化函数
+    function fn(...outerArgs) {
+      return function anonymous(...innnerArgs) {
+        return outerArgs.concat(innnerArgs).reduce((a, b) => {
+          return a + b;
+        });
+      };
+    }
+    let res = fn(1, 2)(3);
+    // console.log(res);
+
+    //方法一：
+    const add1 = (x) => x + 1;
+    const mul3 = (x) => x * 3;
+    const div2 = (x) => x / 2;
+    function compose(...args) {
+      return args.reduce((a, b) => (arg) => b(a(arg)));
+    }
+    const operate = compose(div2, mul3, add1)(10);
+    console.log(operate);
+    //方法二：
+    function compose1(...funcs) {
+      return function anonymous(...args) {
+        if (funcs.length === 0) return args;
+        if (funcs.length === 1) return funcs[0](...args);
+        let n = 0;
+        return funcs.reduce((a, b) => {
+          n++;
+          if (n === 1) return b(a(...args));
+          return b(a);
+        });
+      };
+    }
+		console.log(compose1()(10));
+		console.log(compose1(add1)(10));
+    console.log(compose1(div2, mul3, add1)(10));
+  </script>
+</html>
