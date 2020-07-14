@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      //https://github.com/Advanced-Frontend/Daily-Interview-Question/issues/6
+      //参考文章：https://es6.ruanyifeng.com/#docs/set-map
+      // Set 和 Map 主要的应用场景在于 数据重组 和 数据储存
+      // Set 是一种叫做集合的数据结构，Map 是一种叫做字典的数据结构
+      // 集合类似于数组，但成员是唯一且无序的，没有重复的值
+      //Set 本身是一种构造函数，用来生成 Set 数据结构
+      // set实例方法：
+      // add(value)：新增，相当于 array里的push
+      // delete(value)：存在即删除集合中value
+      // has(value)：判断集合中是否存在 value
+      // clear()：清空集合
+      // 遍历方法（遍历顺序为插入顺序：keys()：返回一个包含集合中所有键的迭代器 values()：返回一个包含集合中所有值得迭代器 entries()：返回一个包含Set对象中所有元素得键值对迭代器
+      // forEach(callbackFn, thisArg)：用于对集合成员执行callbackFn操作，如果提供了 thisArg 参数，回调中的this会是这个参数，没有返回值
+      let arr = [1, 2, 3, 4, 5, 3, 2, 1];
+      console.log([...new Set(arr)]);
+
+      /*
+      WeakSet   WeakSet 结构与 Set 类似，也是不重复的值的集合,但是他与Set有两个区别
+      （1）WeakSet 的成员只能是对象，而不能是其他类型的值
+      （2）WeakSet 中的对象都是弱引用，即垃圾回收机制不考虑 WeakSet 对该对象的引用，也就是说，如果其他对象都不再引用该对象，
+           那么垃圾回收机制会自动回收该对象所占用的内存，不考虑该对象还存在于 WeakSet 之中
+
+           WeakSet 适合临时存放一组对象，以及存放跟对象绑定的信息
+           WeakSet 没有size属性，没有办法遍历它的成员
+    **/
+      const a = [
+        [1, 2],
+        [3, 4],
+      ];
+      const ws = new WeakSet(a);
+      console.log(ws)
+      // WeakSet {[1, 2], [3, 4]}注意，是a数组的成员成为 WeakSet 的成员，而不是a数组本身
+
+      /*
+      字典（Map） 
+      集合 与 字典 的区别:  共同点：集合、字典 可以储存不重复的值    不同点：集合 是以 [value, value]的形式储存元素，字典 是以 [key, value] 的形式储存
+      */
+
+      /*
+      WeakMap 对象是一组键值对的集合，其中的键是弱引用对象，而值可以是任意
+      */
+      
+
+    </script>
+  </body>
+</html>

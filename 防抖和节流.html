@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      #throttle {
+        width: 500px;
+        height: 500px;
+        background-color: gray;
+      }
+    </style>
+  </head>
+  <body>
+    <input type="text" id="inp" />
+    <div id="throttle">
+      节流
+    </div>
+    <script>
+      //参考文章：https://github.com/Advanced-Frontend/Daily-Interview-Question/issues/5
+      //关于call和apply的使用：https://blog.csdn.net/liuyingv8/article/details/80582478
+      /**
+      防抖函数（触发高频事件后n秒内函数只会执行一次，如果n秒内高频事件再次被触发，则重新计算时间）
+    */
+      function debounce(fn) {
+        console.log(this); //window对象
+        let timer = null;
+        return function () {
+          console.log(this); //input对象
+          if (timer) clearTimeout(timer);
+          timer = setTimeout(() => {
+            console.log(this); //input对象
+            fn.apply(this, arguments); //确保在sayHi函数里的this指向的是input对象
+            // fn();这样就会使sayHi函数里的this指向的是window
+          }, 500);
+          // timer = setTimeout(function(){
+          //   console.log(this);window对象
+          //   fn();
+          // },500)
+        };
+      }
+      function sayHi() {
+        console.log(this); //input对象
+        console.log("防抖成功");
+      }
+      var inp = document.getElementById("inp");
+      inp.addEventListener("input", debounce(sayHi));
+
+      /**
+     节流函数（高频事件触发，但在n秒内只会执行一次，所以节流会稀释函数的执行频率）
+    */
+      //使用时间戳：当触发事件时，我们取出当前的时间戳，然后减去之前的时间戳（最开始设置为0），如果大于设置的时间周期，就执行函数，然后更新时间戳为当前的时间戳，如果小于就不执行
+      function throttle(func, wait) {
+        var that, args;
+        var previous = 0;
+        return function () {
+          that = this;
+          args = arguments;
+          console.log(new Date());
+          console.log(+new Date());//+是转为时间戳
+          var now = +new Date();
+          if (now - previous > wait) {
+            func.apply(that, args);
+            previous = now;
+          }
+        };
+      }
+      function sayNo() {
+        console.log("节流成功");
+      }
+      var dv = document.getElementById("throttle");
+      dv.onmousemove = throttle(sayNo, 500);
+      //使用定时器---当触发事件的时候，我们设置一个定时器，再触发事件的时候，如果定时器存在，就不执行，直到定时器执行，然后执行函数，清空定时器，这样就可以设置下个定时器。
+      function throttle1(func, wait) {
+        var timeout;
+        var previous = 0;
+
+        return function () {
+          context = this;
+          args = arguments;
+          if (!timeout) {
+            timeout = setTimeout(function () {
+              timeout = null;
+              func.apply(context, args);
+            }, wait);
+          }
+        };
+      }
+      // dv.onmousemove = throttle1(sayNo, 500);
+      //所以比较两个方法：
+      // 第一种事件会立刻执行，第二种事件会在 n 秒后第一次执行
+      // 第一种事件停止触发后没有办法再执行事件，第二种事件停止触发后依然会再执行一次事件
+
+    </script>
+  </body>
+</html>
