@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Document</title>
+</head>
+<body>
+	<script>
+		//https://www.cnblogs.com/nayek/p/11749911.html
+		// 思路：
+		// 		使用for-in遍历对象
+		// 		因为for-in会遍历原型链上的属性，所以需要判断属性是否在原型链上，不是原型链才拷贝
+		// 		判断属性值类型是原始类型和引用类型
+		// 		原始类型直接赋值（注意null）
+		// 		引用类型判断是对象还是数组，创建对应的空对象或空数组，递归调用函数，将值赋值进去
+	  function deepClone(origin, target){
+				if(typeof(origin) !== 'object'){
+					return origin;
+				}
+				target = target || {};
+				for(let prop in origin){
+					if(origin.hasOwnProperty(prop)){
+						//引用类型判断是对象还是数组，创建对应的空对象或空数组，递归调用函数，将值赋值进去
+						if(typeof(origin[prop]) ==='object' && origin[prop]){
+							if(origin[prop] instanceof Array){
+								target[prop] = []
+								deepClone(origin[prop],target[prop])
+							}else{
+								target[prop] = {}
+								deepClone(origin[prop],target[prop]);
+							}
+						}else{
+							//原始类型直接赋值（注意null）
+							target[prop] = origin[prop]
+						}
+					}
+				}
+				return target;
+			}
+			let arr = {
+				name: "gmx",
+				age:23,
+				say: ['hello','hi']
+			}
+			let newarr = deepClone(arr, {});
+			arr.name="zzq";
+			console.log(arr)	
+		  console.log(newarr)	
+	</script>
+</body>
+</html>

@@ -20,19 +20,20 @@
         }
         return o;
       }
-      
+
       function deepCopyBFS(origin) {
         let queue = [];
         let map = new Map(); // 记录出现过的对象，用于处理环
 
         let target = getEmpty(origin);
         if (target !== origin) {
+          //说明origin是一个对象或者数组，需要拷贝子代
           queue.push([origin, target]);
           map.set(origin, target);
         }
 
         while (queue.length) {
-          let [ori, tar] = queue.shift();
+          let [ori, tar] = queue.shift(); //出队
           for (let key in ori) {
             // 处理环状
             if (map.get(ori[key])) {
@@ -43,6 +44,48 @@
             tar[key] = getEmpty(ori[key]);
             if (tar[key] !== ori[key]) {
               queue.push([ori[key], tar[key]]);
+              map.set(ori[key], tar[key]);
+            }
+          }
+        }
+
+        return target;
+      }
+
+      let arr = {
+        name: "gmx",
+        age: 23,
+        say: ["hello", "hi"],
+      };
+      let newarr = deepCopyBFS(arr);
+      arr.name = "zzq";
+      console.log(arr);
+      console.log(newarr);
+
+
+
+      function deepCopyDFS(origin) {
+        let stack = [];
+        let map = new Map(); // 记录出现过的对象，用于处理环
+
+        let target = getEmpty(origin);
+        if (target !== origin) {
+          stack.push([origin, target]);
+          map.set(origin, target);
+        }
+
+        while (stack.length) {
+          let [ori, tar] = stack.pop();
+          for (let key in ori) {
+            // 处理环状
+            if (map.get(ori[key])) {
+              tar[key] = map.get(ori[key]);
+              continue;
+            }
+
+            tar[key] = getEmpty(ori[key]);
+            if (tar[key] !== ori[key]) {
+              stack.push([ori[key], tar[key]]);
               map.set(ori[key], tar[key]);
             }
           }
