@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      /*
+    ES6
+    */
+      // class Super {}
+      // class Sub extends Super {}
+      // const sub = new Sub();
+      // console.log(Sub.__proto__);
+      // console.log(Sub.__proto__ === Super); //true 子类可以直接通过 __proto__ 寻址到父类
+
+      /*
+    ES5
+    */
+      function Super() {}
+      function Sub() {}
+      Sub.prototype = new Super();
+      Sub.prototype.constructor = Sub;
+      var sub = new Sub();
+      console.log(sub.prototype)//undefined 说明只有构造函数才有原型属性prototype,它是一个对象 原型对象中有个constructor属性，constructor指向构造函数本身，也只有原型对象具有constructor属性
+      console.log(sub.__proto__)//所有的对象都有 __protp__属性，它也是个对象
+      console.log(Sub.__proto__ === Function.prototype); //true 而通过 ES5 的方式，Sub.__proto__ === Function.prototype
+      // 实例对象访问一个方法或者属性的步骤:
+      // 1.在本身对象内查找
+      // 2.通过__proto__访问构造函数的原型prototype内查找
+      // 3.通过构造函数的原型prototype内的__proto__访问Object构造函数的原型prototype查找，结果是Null
+
+    </script>
+  </body>
+</html>
