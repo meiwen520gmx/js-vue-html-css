@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      //解法一：
+      function NorepeatArr(arr) {
+        let newarr = arr
+          .toString()
+          .split(",")
+          .sort((a, b) => a - b)
+          .map(Number);
+        return [...new Set(newarr)];
+      }
+      var arr = [
+        [1, 2, 2],
+        [3, 4, 5, 5],
+        [6, 7, 8, 9, [11, 12, [12, 13, [14]]]],
+        10,
+      ];
+      // console.log(NorepeatArr(arr))
+      //解法二：
+      Array.prototype.flat = function () {
+        return [].concat(
+          ...this.map((item) => (Array.isArray(item) ? item.flat() : [item]))
+        );
+      };
+      Array.prototype.unique = function () {
+        // return [...new Set(this)]也可以去重
+       return this.reduce((prev, cur) => {
+          if(!prev.includes(cur)){
+            return prev.concat(cur)
+          }else{
+            return prev
+          }
+        }, []);
+      };
+      const sort = (a, b) => a - b;
+      console.log(arr.flat().unique().sort(sort));
+       
+
+
+      //数组去重
+      let arr1 = [1, 2, 3, 4, 4, 1];
+      let newArr = arr1.reduce((pre, cur) => {
+        if (!pre.includes(cur)) {
+          return pre.concat(cur);
+        } else {
+          return pre;
+        }
+      }, []);
+      // console.log(newArr); // [1, 2, 3, 4]
+    </script>
+  </body>
+</html>
