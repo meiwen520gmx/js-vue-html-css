@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Document</title>
+</head>
+<body>
+	<script>
+	  function Dog(name){
+			this.name = name;
+		}
+		Dog.prototype.bark = function () {
+			console.log("旺旺")
+		}
+		Dog.prototype.sayName = function(){
+			console.log("my name is"+this.name);
+		}
+		//new的过程：
+		//1.创建一个实例对象，实例对象__proto__=Dog.prototype
+		//2.把函数执行，this指向实例对象
+		//3.分析返回值：如果返回值是一个引用类型，返回的是引用，而不是实例；
+		//如果返回值没有或者返回的是一个基本类型，那么返回的是这个实例对象
+		console.log("start")
+		function _new(Func, ...args){
+			//1.创建实例对象
+			// let obj = {};
+			// obj.__proto__ = Func.prototype;__proto__在IE中不兼容
+			// 优化创建：
+			let obj = Object.create(Func.prototype);
+			//2.把方法执行，让里面的this是实例对象
+	    let result =	Func.call(obj, ...args);
+			//3.分析返回结果
+			if(result!==null && /^(object|function)$/.test(typeof result)) return result;
+			return obj;
+		}
+		console.log("end")
+		let sanmao = _new(Dog, "三毛");
+		sanmao.bark();
+		sanmao.sayName();
+		console.log(sanmao instanceof Dog)
+	</script>
+</body>
+</html>

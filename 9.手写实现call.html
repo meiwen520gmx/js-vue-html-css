@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      //手写call方法(内置call)：call是立即执行，然后改变this指向
+      //思路：
+      //obj.xxx = func;
+      //obj.xxx(10, 20);=>func执行，方法中的this=>obj
+      ~(function () {
+        function change(context, ...args) {
+          // this=func
+          context = context == undefined ? window : context;
+          let type = typeof context;
+          if (!/^(object|function)$/.test(type)) {
+            if (/^(symbol|bigint)$/.test(type)) {
+              context = Object(context);
+            } else {
+              context = new context.constructor(context);
+            }
+          }
+          let key = Symbol("key"),
+            result;
+          context[key] = this;
+          result = context[key](...args);
+          //用完就删：
+          delete context[key];
+          return result;
+        }
+        Function.prototype.change = change;
+      })();
+
+      let obj = { name: "gmx" };
+
+      function func(x, y) {
+        this.total = x + y;
+        return this;
+      }
+      let res = func.change(obj, 100, 200);
+      //  如果这样：
+      let res1 = func.change("ggg", 100, 100);
+      //字符串就不能添加属性，所以需要判断
+      console.log(res);
+      console.log(res1);
+
+      let res2 = func.change(Symbol('ggg'), 100, 100);
+			// change跟call实现效果一样
+      // Object(Symbol('ggg'))//变成对象
+			console.log(res2);
+    </script>
+  </body>
+</html>
