@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      "use strict";
+      //虽然是strict模式，但语句var x = 'Hello, ' + y;并不报错，原因是变量y在稍后申明了
+      // 但是console.log显示Hello, undefined，说明变量y的值为undefined。
+      // 这正是因为JavaScript引擎自动提升了变量y的声明，但不会提升变量y的赋值。
+
+      function foo() {
+        var x = "Hello, " + y;
+        console.log(x);
+        var y = "Bob";
+      }
+      foo(); //Hello, undefined
+			//数组去重
+      var r,
+        arr = [
+          "apple",
+          "strawberry",
+          "banana",
+          "pear",
+          "apple",
+          "orange",
+          "orange",
+          "strawberry",
+        ];
+      r = arr.filter(function (element, index, self) {
+        return self.indexOf(element) === index;
+      });
+			console.log(r);
+    </script>
+  </body>
+</html>
