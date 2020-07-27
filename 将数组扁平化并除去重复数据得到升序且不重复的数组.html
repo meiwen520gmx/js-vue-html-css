@@ -31,18 +31,16 @@
       };
       Array.prototype.unique = function () {
         // return [...new Set(this)]也可以去重
-       return this.reduce((prev, cur) => {
-          if(!prev.includes(cur)){
-            return prev.concat(cur)
-          }else{
-            return prev
+        return this.reduce((prev, cur) => {
+          if (!prev.includes(cur)) {
+            return prev.concat(cur);
+          } else {
+            return prev;
           }
         }, []);
       };
       const sort = (a, b) => a - b;
       console.log(arr.flat().unique().sort(sort));
-       
-
 
       //数组去重
       let arr1 = [1, 2, 3, 4, 4, 1];
@@ -54,6 +52,22 @@
         }
       }, []);
       // console.log(newArr); // [1, 2, 3, 4]
+      //数组去重
+      // var r,
+      //   arr = [
+      //     "apple",
+      //     "strawberry",
+      //     "banana",
+      //     "pear",
+      //     "apple",
+      //     "orange",
+      //     "orange",
+      //     "strawberry",
+      //   ];
+      // r = arr.filter(function (element, index, self) {
+      //   return self.indexOf(element) === index;
+      // });
+      // console.log(r);
     </script>
   </body>
 </html>
