@@ -51,6 +51,13 @@
     console.log(function () {}.toString()); //function (){}
     console.log(null.toString()); //error
     console.log(undefined.toString()); //error
+
+    //为什么使用Object.prototype.toString,而不直接使用obj.toString()????????
+    //这是因为toString是Object的原型方法，而Array,Function等类型作为Object的实例，都重写了toString()方法
+    //不同的对象类型调用toString方法时，根据原型链的知识，调用的是对应的重写之后的toString方法
+    //而不会去调用Object上原型toString方法（返回对象的具体类型）
+    //所以采用obj.toString()不能得到其对象类型，只能将obj转换为字符串类型
+
     //我们可以验证一下，将数组的toString方法删除，看看会是什么结果：
     var arr = [1, 2, 3];
     console.log(Array.prototype.hasOwnProperty("toString")); //true
