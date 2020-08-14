@@ -16,11 +16,14 @@
 		Dog.prototype.sayName = function(){
 			console.log("my name is"+this.name);
 		}
+
 		//new的过程：
 		//1.创建一个实例对象，实例对象__proto__=Dog.prototype
 		//2.把函数执行，this指向实例对象
 		//3.分析返回值：如果返回值是一个引用类型，返回的是引用，而不是实例；
 		//如果返回值没有或者返回的是一个基本类型，那么返回的是这个实例对象
+
+    const t0 = performance.now();
 		console.log("start")
 		function _new(Func, ...args){
 			//1.创建实例对象
@@ -35,10 +38,12 @@
 			return obj;
 		}
 		console.log("end")
+    const t1 = performance.now();
+    console.log(t1 - t0, 'milliseconds');
 		let sanmao = _new(Dog, "三毛");
 		sanmao.bark();
 		sanmao.sayName();
-		console.log(sanmao instanceof Dog)
+		console.log(sanmao instanceof Dog);
 	</script>
 </body>
 </html>

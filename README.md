@@ -103,6 +103,10 @@ object ,function
 - 第一个：函数执行形成的私有上下文 EC(FUNC)=>作用域链/形参赋值/....
 - 第二个：函数体大括号包起来的是一个块级上下文 EC(BLOCK)
 
+
+
+
+
 ## vue 核心基础知识
 
 ### 说说你对 SPA 单页面的理解，它的优缺点分别是什么？
@@ -323,6 +327,8 @@ Vue 主要通过以下 4 个步骤来实现数据双向绑定的：
 
 ## 实现水平居中---垂直居中
 
+## 原文链接：https://juejin.im/post/6844903474879004680
+
 ### 水平居中(margin、flex、transform、绝对定位+left+(margin||transform))
 
 - 如果是行内元素，给其父元素设置`text-align:center`,即可实现行内元素水平居中
@@ -363,3 +369,16 @@ Vue 主要通过以下 4 个步骤来实现数据双向绑定的：
     `.son{ position:absolute; top:50%; height:固定; margin-top:-0.5*高度; }`
   * 设置父元素相对定位，子元素设置如下：
     `.son{ position:absolute; height:固定; top:0; bottom:0; margin:auto 0; }`
+
+## 高度已知，三栏布局，左右宽度 300，中间自适应(假设子元素样式分别为left,center，right)
+
+- float 解决方案，DOM 顺序与视觉顺序相符：一个左浮动，一个右浮动，中间的元素利用 calc 计算出宽度，并设置成行内元素 html:left center right
+* float 解决方案，DOM 顺序与视觉顺序不相符：一个左浮动，一个右浮动，中间元素使用`margin:0 300px` html:left right center
+* position绝对定位解决方案:父元素设置相对定位，left设置绝对定位并且`left: 0;width: 300px;`,right设置绝对定位并且`right: 0;width: 300px;`,center如果设置了绝对定位，那么添加样式`left: 300px;     right: 300px;`如果没有设置绝对定位，添加的样式为`margin:  0 300px;`
+* flex布局,DOM 顺序与视觉顺序相符：父元素设置`display: flex;`,left和right设置`width: 300px;`,center设置`flex:1;` html:left center right
+
+## 如何实现等高布局
+* 边框模拟(伪等高) 
+* table元素中的table-cell元素默认就是等高的
+* 设置子元素的top:0;bottom:0;使得所有子元素的高度都和父元素的高度相同，实现等高效果
+* flex中的伸缩项目默认都拉伸为父元素的高度，也实现了等高效果
