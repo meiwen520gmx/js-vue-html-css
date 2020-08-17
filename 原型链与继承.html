@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      function Father() {
+        this.property = true;
+      }
+      console.log(Father.prototype); //每个构造函数都有一个原型对象，原型对象都包含一个指向构造函数的指针
+      Father.prototype.getFatherVal = function () {
+        return this.property;
+      };
+      console.log(Father.prototype); //原型对象中除了指向构造函数指针外，又多了一个getFatherVal函数
+
+      function Son() {
+        this.sonProperty = false;
+      }
+      console.log(Son.prototype);
+      Son.prototype = new Father(); //Son.prototype被重写，导致Son.prototype.constructor也一同被重写
+
+      Son.prototype.getSonVal = function () {
+        return this.sonProperty;
+      };
+      console.log(Son.prototype);
+      var instance = new Son();
+      alert(instance.getFatherVal()); //true instance实例通过原型链找到了Father原型中的getFatherValue方法.
+      //注意: 此时instance.constructor指向的是Father,这是因为Son.prototype中的constructor被重写的缘故.
+
+    </script>
+  </body>
+</html>
