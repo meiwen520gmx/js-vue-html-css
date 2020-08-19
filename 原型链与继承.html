@@ -29,6 +29,17 @@
       var instance = new Son();
       alert(instance.getFatherVal()); //true instance实例通过原型链找到了Father原型中的getFatherValue方法.
       //注意: 此时instance.constructor指向的是Father,这是因为Son.prototype中的constructor被重写的缘故.
+      //确定原型和实例的关系：
+      //第一种instanceof,用这个操作符来测试实例与原型链中出现过的构造函数，结果会返回true
+      console.log(instance instanceof Object);//true
+      console.log(instance instanceof Father);//true
+      console.log(instance instanceof Son);//true
+      //由于原型链的关系, 我们可以说instance 是 Object, Father 或 Son中任何一个类型的实例
+      //第二种 isPrototypeOf() 同样只要是原型链中出现过的原型,isPrototypeOf() 方法就会返回true
+      console.log(Object.prototype.isPrototypeOf(instance))//true
+      console.log(Father.prototype.isPrototypeOf(instance))//true
+      console.log(Son.prototype.isPrototypeOf(instance))//true
+
 
     </script>
   </body>
