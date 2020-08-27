@@ -1,33 +1,32 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Document</title>
-</head>
-<body>
-  
-</body>
-<script>
-  // let a = {
-  //   i: 0,
-  //   toString(){
-  //     return ++this.i
-  //   }
-  // }
-  // if(a ==1 && a==2 && a==3){
-  //   console.log("ok")
-  // }
-  // a.toString  Object.prototype.toString() 检测数据类型
-  
-  let i = 0;
-  Object.defineProperty(window,'a', {
-    get(){
-      return ++i;
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body></body>
+  <script>
+    // let a = {
+    //   i: 0,
+    //   toString(){
+    //     return ++this.i
+    //   }
+    // }
+    // if(a ==1 && a==2 && a==3){
+    //   console.log("ok")
+    // }
+    // a.toString  Object.prototype.toString() 检测数据类型
+
+    let i = 0;
+    Object.defineProperty(window, "a", {
+      get() {
+        return ++i;
+      },
+    });
+    if (a == 1 && a == 2 && a == 3) {
+      console.log("ok");
     }
-  })
-  if(a ==1 && a==2 && a==3){
-    console.log("ok")
-  }
-</script>
+
+  </script>
 </html>

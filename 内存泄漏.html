@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      //1.意外的全局变量
+      //未定义的变量会在全局对象创建一个新变量
+      //函数 foo 内部忘记使用 var ，实际上JS会把bar挂载到全局对象上，意外创建一个全局变量
+      // function foo(arg) {
+      //   bar = "this is a hidden global variable";
+      // }
+      //另一个意外的全局变量可能由 this 创建。
+      // function foo() {
+      //   console.log(this);
+      //   this.variable = "potential accidental global";
+      // }
+      // console.log(this.variable);
+      // Foo 调用自己，this 指向了全局对象（window）
+      // 而不是 undefined
+      // foo();
+      //解决方法：在 JavaScript 文件头部加上 'use strict'，使用严格模式避免意外的全局变量，此时上例中的this指向undefined。
+      //如果必须使用全局变量存储大量数据时，确保用完以后把它设置为 null 或者重新定义。
+      //2、被遗忘的计时器或回调函数
+      //3、脱离 DOM 的引用
+      //4.闭包的关键是匿名函数可以访问父级作用域的变量。
+      console.log(person);
+
+      console.log(fun);
+
+      var person = "Eric";
+
+      console.log(person);
+
+      function fun() {
+        console.log(person);
+        var person = "Tom";
+        console.log(person);
+      }
+
+      fun();
+
+      console.log(person);
+    </script>
+  </body>
+</html>

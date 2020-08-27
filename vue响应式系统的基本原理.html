@@ -31,7 +31,7 @@
         console.log("视图更新啦~", val);
       }
 
-      function observer(value) {
+      function observer(value) {//Observer是一个类,它的作用是给对象属性添加getter和setter,用于 依赖收集 和 派发更新
         if (!value || typeof value !== "object") {
           return;
         }
