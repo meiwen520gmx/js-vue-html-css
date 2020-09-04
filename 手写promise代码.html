@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>手写promise</title>
+  </head>
+  <body>
+    <script>
+      //参考文章：https://www.cnblogs.com/xinggood/p/11836096.html
+      debugger;
+      class Mypromise {
+        constructor(exe) {
+          this.state = "pending"; //状态值
+          this.value = undefined; //成功的返回值
+          this.reason = undefined; //失败的返回值
+          this.onResolvedCallbacks = []; //存放成功态要执行的函数
+          this.onRejectedCallbacks = []; //存放失败态要执行的函数
+          //成功
+          let resolve = (value) => {
+            if (this.state === "pending") {
+              this.state = "fulfilled";
+              this.value = value;
+              this.onResolvedCallbacks.forEach((fn) => fn());
+            }
+          };
+          //失败
+          let reject = (reason) => {
+            if (this.state === "pending") {
+              this.state = "rejected";
+              this.reason = reason;
+              this.onRejectedCallbacks.forEach((fn) => fn());
+            }
+          };
+          try {
+            //执行函数
+            exe(resolve, reject);
+          } catch (err) {
+            //失败则直接执行reject函数
+            reject(err);
+          }
+        }
+        then(onFullFilled, onRejected) {
+          //状态为fulfuilled，执行onFullFilled，传入成功的值
+          if (this.state === "fulfilled") {
+            onFullFilled(this.value);
+          }
+          //状态为rejected，执行onRejected，传入失败的值
+          if (this.state === "rejected") {
+            onRejected(this.reason);
+          }
+          // 异步
+          if (this.status === "pending") {
+            // 在pending状态的时候先订阅
+            this.onResolvedCallbacks.push(() => {
+              // todo
+              onFullFilled(this.value);
+            });
+            this.onRejectedCallbacks.push(() => {
+              // todo
+              onRejected(this.reason);
+            });
+          }
+        }
+      }
+
+      const p = new Mypromise((resolve, reject) => {
+        throw new Error("失败");
+        reject("failed");
+      });
+      p.then(
+        (res) => {
+          console.log(res);
+        },
+        (err) => {
+          console.log(err);
+        }
+      );
+    </script>
+  </body>
+</html>
