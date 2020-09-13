@@ -1,23 +1,9 @@
-# myvue
-
-## Project setup
-```
-npm install
-```
-
-### Compiles and hot-reloads for development
-```
-npm run serve
-```
-
-### Compiles and minifies for production
-```
-npm run build
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
-
-### 对source-map进行优化的两个插件
-* Cheap-module-eval-source-map
-* Cheap-module-source-map
+推荐文章：https://github.com/57code/vue-interview
+## 1.v-if和v-for谁的优先级更高？
+答：v-for优先级更高，我曾做过实验，把它们放在一起，（this.$options.render）输出的渲染函数中可以看出先执行循环再判断条件，在实践中有两种情况：（1）为了过滤列表中的项目，为了在渲染列表中一小部分元素的时候不会每次重渲染就去遍历整个列表，此时定义一个计算属性，让其返回过滤后的列表再进行渲染；（2）为了避免渲染本应该被隐藏的列表，此时把v-if移至容器元素上即可。源码中的genElement.
+## 2.你知道key的作用吗？
+答：（1）key的作用主要是为了更高效的更新虚拟DOM；（2）vue在patch过程中判断两个节点是否是相同节点是Key是一个必要条件，渲染一组列表时，key往往是唯一标识，如果不定义key的话，vue只能认为比较的两个节点是同一个，哪怕它们实际上不是，这导致了频繁更新元素，使得整个patch过程比较低效，影响性能；（3）实际使用中在渲染一组列表时key必须设置，而且必须是唯一标识，应该避免使用数组索引作为key,这可能导致一些隐蔽的bug,vue中在使用相同标签元素过渡切换时，也会设置key属性，其目的就是为了让vue可以区分它们，否则vue只会替换其内部属性而不会触发过渡效果。（4）从源码中可以知道，vue判断两个节点是否相同时主要判断两者的key和元素类型等，因此如果不设置key，它的值就是Undefined，则可能永远认为这是两个相同节点，只能去做更新操作，这造成了大量的dom更新操作，明显是不可取的。源码：sameVnode,比较两个节点时，第一次判断它们的key是否相同，然后判断标签元素是否相同，然后还有其他条件，所以不能说key是唯一标识，只能说在渲染一组列表时,key才是唯一标识。
+## 3.能说说双向绑定以及它的实现原理吗？
+答：（1）vue中双向绑定是一个指令v-model,可以绑定一个动态值到视图，同时视图中变化能改变该值。v-model是语法糖，默认情况下相当于:value和@input;（2）使用v-model可以减少大量繁琐的事件处理代码，提高开发效率，代码可读性也更好；（3）通常在表单项上使用v-model;（4）原生的表单项可以直接使用v-model,自定义组件上如果要使用它需要在组件内绑定value并处理输入事件；
+## 4.你了解vue中的diff算法吗？
+答：（1）diff算法是虚拟DOM技术的产物，vue里面实际叫做patch,它的核心实现来自于snabbdom,通过新旧虚拟DOM作对比（即patch）,将变化的地方转换为DOM操作；（2）在vue1中是没有patch的，因为界面中每个依赖都有专门的watcher负责更新，这样项目规模变大就会成为性能瓶颈，vue2中为了降低watcher粒度，每个组件只有一个watcher,但是当需要更新的时候，怎样才能精确找到发生变化的地方？这就需要引入patch才行；（3）组件中数据发生变化时，对应的watcher会通知更新并执行其更新函数，它会执行渲染函数获取全新虚拟dom:newVnode,此时就会执行patch比对上次渲染结果oldVnode和新的渲染结果newVnode;（4）patch过程遵循深度优先，同层比较的策略，两个节点之间比较时，如果它们拥有子节点，会先比较子节点；比较两组子节点时，会假设头尾节点可能相同先做尝试，没有找到相同节点后才按照通用的方式遍历查找，查找结束按照情况处理剩下的节点，借助Key通常可以非常精确找到相同节点，因此整个patch过程非常高效。
