@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>数组去重</title>
+</head>
+<body>
+    <script>
+        // 使用双重for和splice
+        (function unique(arr) {
+            for(let i=0; i<arr.length; i++) {
+                for(let j=i+1; j<arr.length; j++) {
+                    if(arr[i] == arr[j]) {
+                        // 第一个等同于第二个，splice方法删除第二个
+                        arr.splice(j, 1);
+                        // 删除后注意回调j
+                        j--;
+                    }
+                }
+            }
+            return arr;
+        })()
+    </script>
+    <script>
+        // 使用indexOf加新数组
+        (function unique(arr) {
+            let uniqueArr = []; // 新数组
+            for(let i=0; i<arr.length; i++) {
+                if(uniqueArr.indexOf(arr[i] === -1)) {
+                    // indexOf返回-1表示在新数组中不存在该元素
+                    uniqueArr.push(arr[i])
+                }
+            }
+            return uniqueArr
+        })()
+
+
+        // 使用includes加新数组   
+        (function unique(arr) {
+            let uniqueArr = []
+            for(let i=0; i<arr.length; i++) {
+                // includes检测数组是否有某个值
+                if(!uniqueArr.includes(arr[i])) {
+                    uniqueArr.push(arr[i])
+                }
+            }
+            return uniqueArr
+        })()
+    </script>
+    <script>
+        // sort排序后，使用快慢指针的思想
+        (function unique(arr) {
+            arr.sort((a, b) => a-b)
+            let slow = 1, fast = 1
+            while(fast < arr.length) {
+                if(arr[fast] != arr[fast-1]) {
+                    arr[slow++] = arr[fast]
+                }
+                ++fast
+            }
+            arr.length = slow
+            return arr
+        })()
+    </script>
+    <script>
+        // ES6提供的Set去重
+        (function unique(arr) {
+            const result = new Set(arr);
+            return [...result]
+        })()
+    </script>
+    <script>
+        // reduce配合includes
+        (function unique(arr) {
+            let uniqueArr = arr.reduce((acc, cur) => {
+                if(!acc.includes(cur)) {
+                    acc.push(cur)
+                }
+                return acc;
+            }, []) // []会作为回调函数的第一个参数的初始值
+            return uniqueArr
+        })()
+    </script>
+    <script>
+        // filter配合indexOf
+        (function unique() {
+            return arr.filter((item, index, arr) => {
+                // 当前元素在原始数组中的第一个索引===当前索引值，否则返回当前元素
+                // 不等于那么就证明是重复项，就舍弃
+                return arr.indexOf(item) === index
+            })
+        })()
+    </script>
+    <script>
+        // 使用哈希表存储元素是否出现（ES6提供的map）
+        (function unique(arr) {
+            let map = new Map()
+            let uniqueArr = new Array(); // 数组用于返回结果
+            for(let i=0; i<arr.length; i++) {
+                if(map.has(arr[i])) { // 如果有该KEY值
+                    map.set(arr[i], true)
+                } else {
+                    map.set(arr[i], false); // 如果没有该KEY值
+                    uniqueArr.push(arr[i])
+                }
+            }
+            return uniqueArr
+        })()
+    </script>
+</body>
+</html>

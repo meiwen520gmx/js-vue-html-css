@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>promise.finally</title>
+</head>
+<body>
+    <script>
+        Promise.prototype.finally = function (cb) {
+            return this.then(function (value) {
+                return Promise.resolve(cb()).then(function () {
+                    return value
+                })
+            }, function(err) {
+                return Promise.resolve(cb()).then(function () {
+                    throw err
+                })
+            })
+        }
+    </script>
+</body>
+</html>
