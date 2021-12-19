@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>清除浮动</title>
+    <style>
+        .container {
+            border: 1px solid red;
+        }
+        .container:after {
+            content: "";
+            clear: both;
+            display: block;
+            height: 0;
+            overflow: hidden;
+            visibility: hidden;
+        }
+        .item {
+            float: left;
+        }
+    </style>
+</head>
+<body>
+    <!-- 高度塌陷：当所有子元素浮动时，且父元素没有设置高度，这时父元素
+    就会产生高度塌陷 -->
+    <!-- 清除浮动方式1：给父元素单独定义高度 优点：快速简单，代码少，缺点：无法进行响应式布局 -->
+    <!-- 清除浮动方式2：父级定义overflow:hidden;zoom:1(针对ie6得兼容) 优点：简简单快速，代码少，兼容性较高
+    缺点：超出部分被隐藏 -->
+    <!-- 清除浮动方式3：在浮动元素后面加一个空标签，clear:both;height:0;overflow:hidden
+    优点：简单快速，代码少，兼容性高 缺点：增加空标签，不利于页面优化 -->
+    <!-- 清除浮动方式4：父级定义overflow:auto  优点：简单，代码少，兼容性好；缺点：内部宽高超过父级div时，会出现滚动条 -->
+    <!-- 清除浮动方式5：万能清除法：给塌陷的元素添加伪对象 优点：写法固定，兼容性很高 ；缺点：代码多 -->
+    <div class="container">
+        <div class="item">1</div>
+        <div class="item">2</div>
+        <div class="item">3</div>
+    </div>
+</body>
+</html>

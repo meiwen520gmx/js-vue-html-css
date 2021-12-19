@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      /**
+		  例子：输入：“{[]}” 输出：true
+		        输入：“（{）” 输出：false
+			解题思路：遍历字符串，利用栈的思想，把左边括号Push进去，
+			根据右边括号来跟上一项做比较，如果能凑成一对，就把上一项从栈中pop出来，循环完后，如果数组里面还有元素，说明不符合规则
+			如果没有元素，说明符合规则
+		**/
+      var isValid = function (s) {
+        let items = [];
+        let len = s.length;
+        if (len % 2 !== 0) {
+          return false;
+        }
+				
+        for (let i = 0; i < len; i++) {
+          let letter = items[items.length - 1]; //拿到上一项
+          switch (s[i]) {
+            case "(":
+              items.push("(");
+              break;
+            case "[":
+              items.push("[");
+              break;
+            case "{":
+              items.push("{");
+              break;
+            case ")":
+              if (letter === "(") {
+                items.pop();
+              }
+              break;
+            case "]":
+              if (letter === "[") {
+                items.pop();
+              }
+              break;
+            case "}":
+              if (letter === "{") {
+                items.pop();
+              }
+              break;
+          }
+        }
+        return items.length === 0;
+      };
+
+      console.log(isValid("{[]}"));
+    </script>
+  </body>
+</html>
