@@ -7,7 +7,7 @@
 </head>
 <body>
 	<script>
-	  function Dog(name){
+	    function Dog(name){
 			this.name = name;
 		}
 		Dog.prototype.bark = function () {
@@ -23,7 +23,7 @@
 		//3.分析返回值：如果返回值是一个引用类型，返回的是引用，而不是实例；
 		//如果返回值没有或者返回的是一个基本类型，那么返回的是这个实例对象
 
-    const t0 = performance.now();
+        const t0 = performance.now();
 		console.log("start")
 		function _new(Func, ...args){
 			//1.创建实例对象
@@ -32,14 +32,14 @@
 			// 优化创建：
 			let obj = Object.create(Func.prototype);
 			//2.把方法执行，让里面的this是实例对象
-	    let result =	Func.call(obj, ...args);
+	        let result = Func.call(obj, ...args);
 			//3.分析返回结果
 			if(result!==null && /^(object|function)$/.test(typeof result)) return result;
 			return obj;
 		}
 		console.log("end")
-    const t1 = performance.now();
-    console.log(t1 - t0, 'milliseconds');
+		const t1 = performance.now();
+		console.log(t1 - t0, 'milliseconds');
 		let sanmao = _new(Dog, "三毛");
 		sanmao.bark();
 		sanmao.sayName();
