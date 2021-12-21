@@ -33,7 +33,7 @@
             })
         }
 
-        // 实现jsonp
+        // 实现jsonp:实现原理是利用<script>标签可以获取不同源资源的特点，来达到跨域访问某个资源的目的
         const jsonp = ({ url, params, callbackName }) => {
             const generayeUrl = () => {
                 let dataSrc = ''
